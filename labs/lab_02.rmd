@@ -50,7 +50,21 @@ west_virginia_ppp <- read_rds("lab_02.rds")
 **A1** [write your answer here]
 
 ```{r}
-# Write the code to produce your answer here
+  west_virginia_with_group_loans <- west_virginia_ppp %>%
+    mutate( 
+      group_loans = case_when(
+        amount < 10000 ~ "under_10k",
+        amount > 50000 & amount < 100000 ~ "10k_50k",
+        amount > 100000 & amount < 500000 ~ "100k_500k",
+        amount > 500000 & amount < 1000000 ~ "500k_1m",
+        amount > 1000000  ~ "1m_plus"
+      )
+    ) 
+```
+```{r}
+  west_virginia_with_group_loans %>% group_by(group_loans) %>%
+  summarise(total = n()) %>%
+  arrange(desc(total))
 
 ```
 
